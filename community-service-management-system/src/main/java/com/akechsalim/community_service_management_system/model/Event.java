@@ -1,11 +1,9 @@
 package com.akechsalim.community_service_management_system.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 public class Event {
@@ -19,8 +17,15 @@ public class Event {
     private LocalDate date;
     private String location;
 
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private Set<Task> tasks;
+
+    @ManyToMany(mappedBy = "events")
+    private Set<Volunteer> volunteers;
+
     public Event() {
     }
+
     public Event(String name, String description, LocalDate date, String location) {
         this.name = name;
         this.description = description;
