@@ -25,14 +25,17 @@ public class Task {
     public Task() {
     }
 
-    public Task(String name, String description, Volunteer assignedTo, boolean completed) {
+    public Task(Long id, String name, String description, Volunteer volunteer, boolean completed, Event event) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.volunteer = assignedTo;
+        this.volunteer = volunteer;
         this.completed = completed;
+        this.event = event;
     }
 
     // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -61,8 +64,8 @@ public class Task {
         return volunteer;
     }
 
-    public void setVolunteer(Volunteer assignedTo) {
-        this.volunteer = assignedTo;
+    public void setVolunteer(Volunteer volunteer) {
+        this.volunteer = volunteer;
     }
 
     public boolean isCompleted() {
@@ -71,5 +74,13 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }
