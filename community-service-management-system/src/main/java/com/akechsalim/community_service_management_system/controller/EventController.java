@@ -2,7 +2,6 @@ package com.akechsalim.community_service_management_system.controller;
 
 import com.akechsalim.community_service_management_system.model.Event;
 import com.akechsalim.community_service_management_system.service.EventService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +23,11 @@ public class EventController {
         return eventService.getAllEvents();
     }
 
+    @PostMapping
+    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        return ResponseEntity.ok(eventService.createEvent(event));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable Long id) {
         return eventService.getEventById(id)
@@ -31,10 +35,9 @@ public class EventController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        Event createdEvent = eventService.createEvent(event);
-        return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+    @PutMapping("/{id}")
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
+        return ResponseEntity.ok(eventService.updateEvent(id, updatedEvent));
     }
 
     @DeleteMapping("/{id}")
@@ -42,4 +45,5 @@ public class EventController {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
+
 }
