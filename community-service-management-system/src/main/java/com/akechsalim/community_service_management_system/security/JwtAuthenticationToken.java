@@ -35,4 +35,11 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     public String getRole() {
         return this.role;
     }
+    @Override
+    public String toString() {
+        return "JwtAuthenticationToken{" +
+                "username='" + username + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

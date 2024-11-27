@@ -1,13 +1,10 @@
 package com.akechsalim.community_service_management_system.security;
 
+import com.akechsalim.community_service_management_system.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -18,7 +15,7 @@ public class JwtUtils {
     private long expiration = 86400000; // 24 hours in milliseconds
 
     // Generate JWT token
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, Role role) {
         Claims claims = Jwts.claims().setSubject(username).build();
         claims.put("role", role);
 
@@ -31,6 +28,7 @@ public class JwtUtils {
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
+
     }
 
     // Extract username from JWT token

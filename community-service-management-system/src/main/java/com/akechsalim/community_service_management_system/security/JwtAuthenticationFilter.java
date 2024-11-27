@@ -3,18 +3,24 @@ package com.akechsalim.community_service_management_system.security;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.stereotype.Component;
 
 
 import java.io.IOException;
 
+@Component
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JwtUtils jwtUtils;
 
-    public JwtAuthenticationFilter(String defaultFilterProcessesUrl, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(@Value("${jwt.filter.process.url}") String defaultFilterProcessesUrl, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
         super(defaultFilterProcessesUrl); // Filters requests that have /api/**
         this.jwtUtils = jwtUtils;
         setAuthenticationManager(authenticationManager);
