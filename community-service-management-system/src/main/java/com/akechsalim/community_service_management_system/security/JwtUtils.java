@@ -17,7 +17,7 @@ public class JwtUtils {
     // Generate JWT token
     public String generateToken(String username, Role role) {
         Claims claims = Jwts.claims().setSubject(username).build();
-        claims.put("role", role);
+        claims.put("role", role.toString());
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
