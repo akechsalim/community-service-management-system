@@ -18,6 +18,14 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+    public boolean existsByUsername(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+    public User createUser(String username, String password, Role role) {
+        String encodedPassword = passwordEncoder.encode(password); // Encrypt password
+        User newUser = new User(username, encodedPassword, role); // Create user
+        return userRepository.save(newUser); // Save user to the database
+    }
 
     // Method to validate the user and return User object
     public User validateUser(String username, String password) {
@@ -30,19 +38,6 @@ public class UserService {
             return user;
         }
         return null; // Invalid password
-    }
-
-    // Method to register a new user (for example)
-    public User registerUser(String username, String password, Role role) {
-        if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("Username already taken");
-        }
-
-        // Encode the password before saving
-        String encodedPassword = passwordEncoder.encode(password);
-        User newUser = new User(username, encodedPassword, role);
-
-        return userRepository.save(newUser); // Save the user to the database
     }
 
 }
