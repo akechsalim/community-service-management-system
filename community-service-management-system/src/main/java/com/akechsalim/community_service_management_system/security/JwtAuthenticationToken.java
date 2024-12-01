@@ -32,9 +32,11 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return username; // Return the username as the principal
     }
+
     public String getRole() {
         return this.role;
     }
+
     @Override
     public String toString() {
         return "JwtAuthenticationToken{" +
