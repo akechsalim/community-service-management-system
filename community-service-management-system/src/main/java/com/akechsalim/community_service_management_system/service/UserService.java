@@ -21,6 +21,7 @@ public class UserService {
     public boolean existsByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
+
     public User createUser(String username, String password, Role role) {
         String encodedPassword = passwordEncoder.encode(password); // Encrypt password
         User newUser = new User(username, encodedPassword, role); // Create user

@@ -22,6 +22,7 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+
         // Validate that username and password are provided
         if (registerRequest.getUsername() == null || registerRequest.getPassword() == null || registerRequest.getRole() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username, password, and role are required.");
