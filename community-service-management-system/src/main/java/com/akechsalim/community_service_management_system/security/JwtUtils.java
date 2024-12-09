@@ -10,12 +10,11 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
-    private final String secretKey = "your_secret_key"; // Keep your secret key
+    private final String secretKey = "your_secret_key"; // Keep your secret key secure
+    private final long expiration = 86400000; // 24 hours in milliseconds
 
     // Generate JWT token
     public String generateToken(String username, Role role) {
-        // 24 hours in milliseconds
-        long expiration = 86400000;
         return Jwts.builder()
                 .claim("username", username) // Add username as a claim
                 .claim("role", role.toString()) // Add role as a claim

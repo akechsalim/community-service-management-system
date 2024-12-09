@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -32,18 +33,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth // Use this instead of 'authorizeHttpRequests()'
-                .requestMatchers("/api/auth/login").permitAll() // Allow login endpoint without authentication
-                .requestMatchers("/admin/**").hasRole("ADMIN")  // Admin-only routes
-                .requestMatchers("/volunteer/**").hasRole("VOLUNTEER") // Volunteer-only routes
-                .anyRequest().authenticated())
+                        .requestMatchers("/api/auth/login").permitAll() // Allow login endpoint without authentication
+                        .requestMatchers("/admin/**").hasRole("ADMIN")  // Admin-only routes
+                        .requestMatchers("/volunteer/**").hasRole("VOLUNTEER") // Volunteer-only routes
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

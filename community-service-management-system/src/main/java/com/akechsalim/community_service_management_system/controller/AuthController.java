@@ -1,6 +1,5 @@
 package com.akechsalim.community_service_management_system.controller;
 
-import com.akechsalim.community_service_management_system.model.Role;
 import com.akechsalim.community_service_management_system.model.User;
 import com.akechsalim.community_service_management_system.security.JwtUtils;
 import com.akechsalim.community_service_management_system.service.UserService;
@@ -20,23 +19,22 @@ public class AuthController {
         this.userService = userService;
         this.jwtUtils = jwtUtils;
     }
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
 
-        // Validate that username and password are provided
-        if (registerRequest.getUsername() == null || registerRequest.getPassword() == null || registerRequest.getRole() == null) {
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody User user) {
+        // Validate input
+        if (user.getUsername() == null || user.getPassword() == null || user.getRole() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username, password, and role are required.");
         }
 
         // Check if user already exists
-        if (userService.existsByUsername(registerRequest.getUsername())) {
+        if (userService.existsByUsername(user.getUsername())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already taken.");
         }
 
-        // Create a new user
-        User user = userService.createUser(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getRole());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully.");
+        // Save the user
+        User createdUser = userService.createUser(user.getUsername(), user.getPassword(), user.getRole());
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully: " + createdUser.getUsername());
     }
 
     @PostMapping("/login")
@@ -53,6 +51,67 @@ public class AuthController {
 
         // If user is invalid, return 401 Unauthorized
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    }
+}
+
+class LoginRequest {
+
+    private String username;
+    private String password;
+
+    public LoginRequest() {
+    }
+
+    public LoginRequest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
+
+class AuthResponse {
+
+    private String token;
+    private String role;
+
+    public AuthResponse() {
+    }
+
+    public AuthResponse(String token, String role) {
+        this.token = token;
+        this.role = role;
+    }
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 

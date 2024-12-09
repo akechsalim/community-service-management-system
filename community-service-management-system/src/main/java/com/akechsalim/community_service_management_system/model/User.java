@@ -1,7 +1,6 @@
 package com.akechsalim.community_service_management_system.model;
 
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 @Entity
@@ -18,13 +17,11 @@ public class User {
     public User() {
     }
 
-    public User( String username, String password, Role role) {
+    public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
-
-
 
     public Long getId() {
         return id;
@@ -58,16 +55,5 @@ public class User {
         this.role = role;
     }
     // equals and hashcode based on id and username
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username);
-    }
 }
