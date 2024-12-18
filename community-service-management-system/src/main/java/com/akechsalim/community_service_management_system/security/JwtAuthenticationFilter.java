@@ -17,7 +17,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private final JwtUtils jwtUtils;
 
     public JwtAuthenticationFilter(@Value("${jwt.filter.process.url}") String defaultFilterProcessesUrl, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
-        super(defaultFilterProcessesUrl); // Filters requests that have /api/**
+        super("/**"); // Filters requests that have /api/**
         this.jwtUtils = jwtUtils;
         setAuthenticationManager(authenticationManager);
     }

@@ -1,7 +1,9 @@
 package com.akechsalim.community_service_management_system.controller;
 
+import com.akechsalim.community_service_management_system.dto.EventDTO;
 import com.akechsalim.community_service_management_system.model.Event;
 import com.akechsalim.community_service_management_system.service.EventService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,25 +21,23 @@ public class EventController {
     }
 
     @GetMapping
-    public List<Event> getAllEvents() {
+    public List<EventDTO> getAllEvents() {
         return eventService.getAllEvents();
     }
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        return ResponseEntity.ok(eventService.createEvent(event));
+    public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO) {
+        return ResponseEntity.status(201).body(eventService.createEvent(eventDTO));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        return eventService.getEventById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
+        return ResponseEntity.ok(eventService.getEventById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
-        return ResponseEntity.ok(eventService.updateEvent(id, updatedEvent));
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @Valid @RequestBody EventDTO updatedEventDTO) {
+        return ResponseEntity.ok(eventService.updateEvent(id, updatedEventDTO));
     }
 
     @DeleteMapping("/{id}")

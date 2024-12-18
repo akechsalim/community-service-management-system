@@ -61,7 +61,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter("/api/**", jwtUtils, authenticationManager);
+        return new JwtAuthenticationFilter(null, jwtUtils, authenticationManager);
     }
 
     @Bean

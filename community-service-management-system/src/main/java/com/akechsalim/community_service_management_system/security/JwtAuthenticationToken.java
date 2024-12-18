@@ -1,11 +1,14 @@
 package com.akechsalim.community_service_management_system.security;
 
+import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collections;
 
+@Getter
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
+    // Get the principal (username)
     private final String username;
     private final String role;
 
@@ -17,11 +20,6 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
         setAuthenticated(true); // Mark the token as authenticated since we've validated it
     }
 
-    // Get the principal (username)
-    public String getUsername() {
-        return username;
-    }
-
     // Get the authorities (roles)
     @Override
     public Object getCredentials() {
@@ -31,10 +29,6 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     @Override
     public Object getPrincipal() {
         return username; // Return the username as the principal
-    }
-
-    public String getRole() {
-        return this.role;
     }
 
     @Override

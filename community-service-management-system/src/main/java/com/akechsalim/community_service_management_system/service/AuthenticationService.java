@@ -2,6 +2,8 @@ package com.akechsalim.community_service_management_system.service;
 
 import com.akechsalim.community_service_management_system.model.User;
 import com.akechsalim.community_service_management_system.repository.UserRepository;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,11 @@ public class AuthenticationService {
     }
 
     public User validateUser(String username, String password) {
-        return userRepository.findByUsername(username)
-                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-                .orElse(null);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Invalid credentials");
+        }
+        return user;
     }
 }
